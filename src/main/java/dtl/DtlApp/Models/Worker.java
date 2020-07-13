@@ -1,5 +1,6 @@
 package dtl.DtlApp.Models;
 
+import com.google.api.services.sheets.v4.Sheets;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +17,8 @@ public class Worker extends User {
     @Column(name = "salary_balance")
     @Setter(value = AccessLevel.NONE)
     private Float salaryBalance = (float) 0;
+
+
 
     @Column(name = "salary_decrease_balance")
     @Setter(value = AccessLevel.NONE)

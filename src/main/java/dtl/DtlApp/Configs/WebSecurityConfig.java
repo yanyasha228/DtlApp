@@ -23,16 +23,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/bitrix/**").permitAll()
-                .antMatchers("/rozetka/catalog.xml").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login").successForwardUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+                .authorizeRequests().antMatchers("/**").permitAll();
+//                .antMatchers("/rozetka/catalog.xml").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login").successForwardUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll();
     }
 
 
