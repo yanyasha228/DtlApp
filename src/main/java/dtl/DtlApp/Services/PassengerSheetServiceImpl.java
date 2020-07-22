@@ -169,6 +169,47 @@ public class PassengerSheetServiceImpl implements PassengerSheetService {
         return passengersToRet;
     }
 
+    @Override
+    public Optional<SheetPassenger> getPassengerFromSpreadsheetInRange(Spreadsheet spreadsheet, ValueRange valueRange, String sheetName) {
+
+//        String sheetName = encodeRequestReservedSymbols(sheetName);
+        ValueRange driverValueRange = new ValueRange();
+
+        driverValueRange.setRange(sheetName + "!" + driverRangeA1);
+        ValueRange autoValueRange = new ValueRange();
+        autoValueRange.setRange(sheetName + "!" + autoRangeA1);
+
+        Optional<ValueRange> valueRangeAutoOpt = sheetValuesRestDao.get(spreadsheet, autoValueRange);
+        Optional<ValueRange> valueRangeDriveOpt = sheetValuesRestDao.get(spreadsheet, driverValueRange);
+        SheetPassenger passenger = new SheetPassenger();
+        if (valueRangeAutoOpt.isPresent() && valueRangeDriveOpt.isPresent()) {
+            if (!Objects.isNull(valueRangeAutoOpt.get().getValues()) && !Objects.isNull(valueRangeDriveOpt.get().getValues())) {
+                Optional<ValueRange> valueRangeFromSheetOpt = sheetValuesRestDao.get(spreadsheet, valueRange);
+                logger.error("----" + valueRange.getRange());
+                System.out.println("----" + valueRange.getRange());
+                if (valueRangeFromSheetOpt.isPresent()) {
+                    List<List<Object>> valuesArrRep = valueRangeFromSheetOpt.get().getValues();
+                    if (Objects.isNull(valuesArrRep)) return Optional.empty();
+                    if (valuesArrRep.get(0).size() > 2 && valuesArrRep.get(1).size() == 1 && valuesArrRep.size() >= 9) {
+                        passenger.setDeparturePoint(valuesArrRep.get(0).get(0).toString());
+                        passenger.setPlaceOfArrival(valuesArrRep.get(0).get(2).toString());
+                        passenger.setPhoneNumber((valuesArrRep.get(1).size() < 1) ? "" : valuesArrRep.get(1).get(0).toString());
+                        passenger.setPaymentOption((valuesArrRep.get(2).size() < 1) ? "" : valuesArrRep.get(2).get(0).toString());
+                        passenger.setName((valuesArrRep.get(3).size() < 1) ? "" : valuesArrRep.get(3).get(0).toString());
+                        passenger.setPrice((valuesArrRep.get(4).size() < 1) ? "" : valuesArrRep.get(4).get(0).toString());
+                        passenger.setTicketId((valuesArrRep.get(5).size() < 1) ? "" : valuesArrRep.get(5).get(0).toString());
+                        passenger.setComment((valuesArrRep.get(6).size() < 1) ? "" : valuesArrRep.get(6).get(0).toString());
+                        passenger.setManager((valuesArrRep.get(7).size() < 1) ? "" : valuesArrRep.get(7).get(0).toString());
+                        passenger.setSource((valuesArrRep.get(8).size() < 1) ? "" : valuesArrRep.get(8).get(0).toString());
+                        passenger.setPromoId("");
+                        passenger.setSheetTitle(sheetName);
+                    }
+                }
+            }
+        }
+        return Optional.of(passenger);
+    }
+
     private boolean checkIfNumberInInterval(int num, int begin, int end) {
         return (num >= begin && num <= end);
     }

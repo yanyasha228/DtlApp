@@ -4,6 +4,7 @@ package dtl.DtlApp;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import dtl.DtlApp.FileUtils.CsvPassengersFileBuilder;
+import dtl.DtlApp.Models.SheetPassenger;
 import dtl.DtlApp.Models.Worker;
 import dtl.DtlApp.RestDao.GoogleApiRestDao.SheetValuesRestDao;
 import dtl.DtlApp.RestDao.GoogleApiRestDao.SpreadsheetRestDao;
@@ -12,8 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Optional;
 
 @SpringBootTest
 class DtlAppApplicationTests {
@@ -36,6 +39,8 @@ class DtlAppApplicationTests {
         Worker worker = new Worker();
         worker.setName("Почтар Галина");
         ValueRange valueRange = new ValueRange();
+//        valueRange.setRange("23_Х-О (18:30)!D662:F671");
+        valueRange.setRange("23_Х-О (18:30)!D2:F11");
 //        List<List<Object>> values = new ArrayList<>();
 //        List<Object> val = new ArrayList<>();
 //        val.add("Pich");
@@ -45,11 +50,11 @@ class DtlAppApplicationTests {
 
 
 //        valueRange.setValues(values);
-        spreadsheet.setSpreadsheetId("1rGAPbX3TOsaeoQpI4XDaHgWtNpCEA-YC6Lniz5X-VGQ");
+        spreadsheet.setSpreadsheetId("1Be4I1yOr9PqHpye6v0F3aAPZkedoUk7KiGsunEAyk6U");
 
 //        sheetValuesRestDao.get(spreadsheet, valueRange);
 //        passengerSheetService.getPassengersFromSheet(spreadsheet,"SAMPLE");
-        String urlToRet = csvPassengersFileBuilder.createCsvByWorker(worker,spreadsheet,1,1);
+        Optional<SheetPassenger> shhetPass = passengerSheetService.getPassengerFromSpreadsheetInRange(spreadsheet,valueRange,"23_Х-О (18:30)");
 
         int i = 2;
     }

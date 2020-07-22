@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,7 @@ public class CsvPassengersFileBuilderImpl implements CsvPassengersFileBuilder {
 
     private String writeCsv(List<List<String>> productsStringRepresentation, Worker worker) throws IOException {
 
-        String genFileName = uploadCsvPath + worker.getName() + "_" + LocalDate.now() + "_" + "ЗП" + ".csv";
+        String genFileName = uploadCsvPath + worker.getName() + "_" + LocalDateTime.now() + "_" + "ЗП" + ".csv";
         File nFile = new File(genFileName);
         FileWriter out = new FileWriter(nFile);
 
